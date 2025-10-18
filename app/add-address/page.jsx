@@ -3,7 +3,7 @@ import { assets } from "@/assets";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const AddAddress = () => {
 
