@@ -17,7 +17,7 @@ async function connectDB() {
     };
 
     cached.promise = mongoose
-      .connect(`${process.env.MONGODB_URI}/ibrahimyoussefdev_db_user`, options)
+      .connect(`${process.env.MONGODB_URI}/Eshtery`, options)
       .then((mongoose) => mongoose);
   }
 

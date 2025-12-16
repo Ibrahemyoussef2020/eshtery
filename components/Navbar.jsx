@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect } from "react";
-import { assets, BagIcon, CartIcon, HomeIcon} from "@/assets";
+import { assets, BagIcon, BoxIcon, CartIcon, HomeIcon} from "@/assets";
 import Link from "next/link"
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
@@ -42,13 +42,25 @@ const Navbar = () => {
         {isSeller && <button onClick={() => router.push('/seller')} className="text-xs border px-4 py-1.5 rounded-full">Seller Dashboard</button>}
 
       </div>
-      <ul className="flex md:flex items-center gap-4 ">
+      <ul className="hidden md:flex items-center gap-4 ">
         <Image className="w-4 h-4" src={assets.search_icon} alt="search icon" />
         {
-          user?.user 
+          user 
 
           ?<UserButton>
             <UserButton.MenuItems>
+                <UserButton.Action
+                label="Home"
+                labelIcon={<HomeIcon />}
+                onClick={() => router.push("/")}
+
+              />
+              <UserButton.Action
+                label="Products"
+                labelIcon={<BoxIcon />}
+                onClick={() => router.push("/all-products")}
+
+              />
               <UserButton.Action
                 label="Cart"
                 labelIcon={<CartIcon />}
@@ -78,7 +90,9 @@ const Navbar = () => {
               {
           user 
 
-          ?<UserButton>
+          ?
+          <>
+          <UserButton>
               <UserButton.MenuItems>
                 <UserButton.Action
                   label="Home"
@@ -112,12 +126,11 @@ const Navbar = () => {
               />
             </UserButton.MenuItems>
           </UserButton>
-
+</>
           :<button onClick={openSignIn} className="flex items-center gap-2 hover:text-gray-900 transition">
             <Image src={assets.user_icon} alt="user icon" />
             Account
           </button>
-
         }
       </div>
     </nav>
