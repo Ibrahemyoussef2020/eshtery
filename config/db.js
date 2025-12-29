@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let cached = global.mongoose; 
+let cached = global.mongoose;
 
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
@@ -16,7 +16,7 @@ async function connectDB() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose
+    cached.promise = await mongoose
       .connect(`${process.env.MONGODB_URI}/Eshtery`, options)
       .then((mongoose) => mongoose);
   }

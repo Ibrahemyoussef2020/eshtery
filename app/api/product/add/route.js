@@ -1,6 +1,9 @@
 import Product from "@/models/Product";
 import { getAuth } from "@clerk/nextjs/server";
 import { v2 as cloudinary } from "cloudinary";
+import connectDB from "@/config/db";
+import authSeller from "@/lib/authSeller";
+import { NextResponse } from "next/server";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,6 +14,7 @@ cloudinary.config({
 export async function POST(request) {
     try {
         const { userId } = getAuth(request);
+        await connectDB();
         const isSeller = await authSeller(userId);
         if (!isSeller) {
             return NextResponse.json({ success: false, status: 401, message: "You are not authorized to add a product" });
