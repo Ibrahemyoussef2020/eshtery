@@ -16,8 +16,8 @@ export const AppContextProvider = (props) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY
     const router = useRouter()
-    const {user} = useUser()
-    const {getToken} = useAuth();
+    const { user } = useUser()
+    const { getToken } = useAuth();
 
     const [products, setProducts] = useState([])
     const [userData, setUserData] = useState(false)
@@ -29,27 +29,27 @@ export const AppContextProvider = (props) => {
     }
 
     const fetchUserData = async () => {
-              try {
-                    if (user.publicMetadata.role === 'seller') {
-                        setIsSeller(true)
-                    }
-
-                    const token = await getToken();
-                    const {data} = await axios.get('/api/user/data' , {
-                        headers:{Authorization:`Bearer ${token}`}
-                    });
-
-                    if (data.success) {
-                        setUserData(data.user)
-                        setCartItems(data.user.cartItems)
-                    }else{
-                        toast.error(data.message)
-                    }
-
-                
-            } catch (error) {
-                toast.error(error.message)
+        try {
+            if (user.publicMetadata.role === 'seller') {
+                setIsSeller(true)
             }
+
+            const token = await getToken();
+            const { data } = await axios.get('/api/user/data', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (data.success) {
+                setUserData(data.user)
+                setCartItems(data.user.cartItems)
+            } else {
+                toast.error(data.message)
+            }
+
+
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     const addToCart = async (itemId) => {
@@ -99,14 +99,14 @@ export const AppContextProvider = (props) => {
     }
 
     useEffect(() => {
-             fetchProductData()
+        fetchProductData()
     }, [])
 
     useEffect(() => {
         if (user) {
             fetchUserData()
         }
-        
+
     }, [user])
 
     const value = {

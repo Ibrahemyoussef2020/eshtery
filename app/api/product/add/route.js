@@ -51,6 +51,7 @@ export async function POST(request) {
         }));
 
         const images = results.map(image => image.secure_url);
+        await connectDB();
         const newProduct = await Product.create({
             userId,
             name,
