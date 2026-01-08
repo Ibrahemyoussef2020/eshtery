@@ -1,4 +1,6 @@
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import Product from "@/models/Product";
 import { getAuth } from "@clerk/nextjs/server";
 import { v2 as cloudinary } from "cloudinary";
@@ -6,13 +8,15 @@ import connectDB from "@/config/db";
 import authSeller from "@/lib/authSeller";
 import { NextResponse } from "next/server";
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export async function POST(request) {
+
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+
     try {
         const { userId } = getAuth(request);
         await connectDB();
