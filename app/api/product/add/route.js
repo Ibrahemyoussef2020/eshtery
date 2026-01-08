@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import Product from "@/models/Product";
 import { getAuth } from "@clerk/nextjs/server";
 import { v2 as cloudinary } from "cloudinary";
