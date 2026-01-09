@@ -1,26 +1,45 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from "react";
 import { assets, productsDummyData } from "@/assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/seller/Footer";
 import Loading from "@/components/Loading";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const ProductList = () => {
 
-  const { router } = useAppContext()
+  const { user, router, getToken } = useAppContext()
 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
   const fetchSellerProduct = async () => {
-    setProducts(productsDummyData)
-    setLoading(false)
+
+    try {
+      const token = await getToken()
+      const { data } = await axios.get("/api/product/seller-list", {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+
+      setProducts(data.products)
+
+      setLoading(false)
+    } catch (error) {
+      toast.error(error.message)
+    }
+
   }
 
   useEffect(() => {
-    fetchSellerProduct();
-  }, [])
+    if (user) {
+      fetchSellerProduct();
+
+    }
+  }, [user])
 
   return (
     <div className="flex-1 min-h-screen flex flex-col justify-between">
@@ -38,13 +57,13 @@ const ProductList = () => {
                 <th className="px-4 py-3 font-medium truncate max-sm:hidden">Action</th>
               </tr>
             </thead>
-            <tbody className="text-sm text-gray-500">
-              {products.map((product, index) => (
+            {products?.length > 0 && true ? <tbody className="text-sm text-gray-500">
+              {products?.map((product, index) => (
                 <tr key={index} className="border-t border-gray-500/20">
                   <td className="md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3 truncate">
                     <div className="bg-gray-500/10 rounded p-2">
                       <Image
-                        src={product.image[0]}
+                        src={product.images[0]}
                         alt="product Image"
                         className="w-16"
                         width={1280}
@@ -69,7 +88,7 @@ const ProductList = () => {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> : null}
           </table>
         </div>
       </div>}
