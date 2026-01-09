@@ -76,7 +76,7 @@ export const AppContextProvider = (props) => {
             cartData[itemId] = 1;
         }
         setCartItems(cartData);
-
+        toast.success('Product added to cart')
     }
 
     const updateCartQuantity = async (itemId, quantity) => {
