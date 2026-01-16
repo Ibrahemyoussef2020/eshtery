@@ -8,10 +8,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#121d44",
+        secondary: "#19a7f8",
       },
-      gridTemplateColumns:{
+      gridTemplateColumns: {
         'auto': 'repeat(auto-fit, minmax(200px, 1fr))'
       },
     },

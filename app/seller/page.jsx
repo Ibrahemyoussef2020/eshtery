@@ -14,12 +14,14 @@ const AddProduct = () => {
   const [category, setCategory] = useState('Earphone');
   const [price, setPrice] = useState('');
   const [offerPrice, setOfferPrice] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { getToken } = useAppContext();
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
@@ -53,7 +55,9 @@ const AddProduct = () => {
     } catch (error) {
       toast.error(error?.message);
     }
-
+    finally {
+      setLoading(false);
+    }
 
   };
 
@@ -61,23 +65,34 @@ const AddProduct = () => {
     <div className="flex-1 min-h-screen flex flex-col justify-between">
       <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-lg">
         <div>
-          <p className="text-base font-medium">Product Image</p>
+          <h1 className="text-base !text-[#121d44] font-medium">Product Image</h1>
           <div className="flex flex-wrap items-center gap-3 mt-2">
 
             {[...Array(4)].map((_, index) => (
-              <label key={index} htmlFor={`image${index}`}>
-                <input onChange={(e) => {
-                  const updatedFiles = [...files];
-                  updatedFiles[index] = e.target.files[0];
-                  setFiles(updatedFiles);
-                }} type="file" id={`image${index}`} hidden />
+              <label
+                className="relative min-w-[145px] md:min-w-[97px] aspect-[145/100] cursor-pointer"
+                key={index}
+                htmlFor={`image${index}`}
+              >
+                <input
+                  type="file"
+                  hidden
+                  id={`image${index}`}
+                  onChange={(e) => {
+                    const updatedFiles = [...files]
+                    updatedFiles[index] = e.target.files[0]
+                    setFiles(updatedFiles)
+                  }}
+                />
+
                 <Image
-                  key={index}
-                  className="max-w-24 cursor-pointer"
-                  src={files[index] ? URL.createObjectURL(files[index]) : assets.upload_area}
+                  src={files[index]
+                    ? URL.createObjectURL(files[index])
+                    : assets.upload_area}
                   alt=""
-                  width={100}
-                  height={100}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 768px) 145px, (min-width: 1024px) 97px"
                 />
               </label>
             ))}
@@ -164,7 +179,7 @@ const AddProduct = () => {
             />
           </div>
         </div>
-        <button type="submit" className="px-8 py-2.5 bg-orange-600 text-white font-medium rounded">
+        <button type="submit" className="px-8 py-2.5 bg-primary text-white font-medium rounded">
           ADD
         </button>
       </form>
